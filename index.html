@@ -1,24 +1,160 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Difficulty Analyzer</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intelligent Question Difficulty Analyzer</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #1e2a38, #2c3e50);
+    color: #f1f1f1;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  .container {
+    max-width: 720px;
+    width: 100%;
+    padding: 40px 24px;
+  }
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 6px;
+    color: #ffffff;
+  }
+  p.subtitle {
+    color: #b0bec5;
+    margin-top: 0;
+    margin-bottom: 24px;
+  }
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #445;
+    background: #101a24;
+    color: #f1f1f1;
+    font-size: 1rem;
+    resize: vertical;
+  }
+  .options {
+    display: flex;
+    gap: 12px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  select {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #101a24;
+    color: #f1f1f1;
+    border: 1px solid #445;
+  }
+  button {
+    margin-top: 18px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    background: #3ddc97;
+    color: #08281c;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.2s ease;
+  }
+  button:hover { background: #33c288; transform: translateY(-1px); }
+  button:active { transform: translateY(0); }
+
+  #resultCard {
+    margin-top: 28px;
+    padding: 20px;
+    border-radius: 12px;
+    background: #101a24;
+    border: 1px solid #2c3e50;
+    display: none;
+  }
+  #resultCard.show { display: block; }
+  .badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+  }
+  .badge.Easy { background: #2e7d32; color: #e8f5e9; }
+  .badge.Medium { background: #f9a825; color: #3e2c00; }
+  .badge.Hard { background: #c62828; color: #ffebee; }
+
+  .bar-wrap {
+    background: #22303f;
+    border-radius: 8px;
+    height: 10px;
+    width: 100%;
+    overflow: hidden;
+    margin: 10px 0 16px;
+  }
+  .bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3ddc97, #f9a825, #c62828);
+    transition: width 0.4s ease;
+  }
+
+  ul#reasons {
+    margin: 0;
+    padding-left: 20px;
+    color: #cfd8dc;
+    line-height: 1.6;
+  }
+  .score-line {
+    color: #90a4ae;
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+  footer {
+    margin-top: 30px;
+    font-size: 0.8rem;
+    color: #607d8b;
+    text-align: center;
+  }
+</style>
 </head>
-
 <body>
+<div class="container">
+  <h1>🧠 Intelligent Question Difficulty Analyzer</h1>
+  <p class="subtitle">Paste any competitive exam question and get an instant difficulty prediction based on keyword complexity, structure, and cognitive-load analysis.</p>
 
-<h1>Intelligent Question Difficulty Analyzer</h1>
-<p>This system analyzes competitive exam questions and predicts the difficulty level using keyword analysis.</p>
-<p>Enter your question:</p>
+  <label for="question"><strong>Enter your question:</strong></label>
+  <textarea id="question" placeholder="e.g. Derive the time complexity of merge sort and prove it using the master theorem."></textarea>
 
-<textarea id="question"></textarea>
+  <div class="options">
+    <select id="subject">
+      <option value="general">General</option>
+      <option value="math">Mathematics</option>
+      <option value="cs">Computer Science</option>
+      <option value="science">Science</option>
+      <option value="reasoning">Reasoning / Aptitude</option>
+    </select>
+  </div>
 
-<br><br>
+  <button onclick="analyze()">Analyze Difficulty</button>
 
-<button onclick="analyze()">Analyze Difficulty</button>
+  <div id="resultCard">
+    <span id="badge" class="badge">-</span>
+    <div class="bar-wrap"><div id="barFill" class="bar-fill" style="width:0%"></div></div>
+    <div class="score-line" id="scoreLine"></div>
+    <p><strong>Why:</strong></p>
+    <ul id="reasons"></ul>
+  </div>
 
-<h2 id="result"></h2>
+  <footer>Built with vanilla JS · Keyword & heuristic based NLP scoring engine</footer>
+</div>
 
 <script src="script.js"></script>
-
 </body>
-</html
+</html>
